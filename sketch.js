@@ -1,29 +1,45 @@
-createCanvas();
-world.gravity.y = 10;
+createCanvas(window.width, window.height);
+var golem1, golem2;
+var heads = ['c', 'ch', 'l']
+var bodies = ['f', 's', 'r']
+var limbs = ['s', 'c', 'f']
 
-let ball = new Sprite();
-ball.x = halfWidth - 200;
-ball.y = halfHeight - 200;
-ball.diameter = 50;
+var fight_timer;
 
-let groundA = new Sprite();
-groundA.x = halfWidth - 120;
-groundA.width = 200;
-groundA.rotation = 20;
-groundA.physics = STATIC;
 
-let groundB = new Sprite();
-groundB.x = halfWidth + 120;
-groundB.width = 200;
-groundB.rotation = -20;
-groundB.physics = STATIC;
+function setup() {
+
+	var name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
+	var char1 = name in characters ? characters[name] : "Unknown";
+
+	name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
+	var char2 = name in characters ? characters[name] : "Unknown";
+	// console.log(name)
+
+	initiateGolems(char1, char2);
+
+
+}
+
 
 function update() {
-	background('skyblue');
+	background('black');
+	golem1.display()
+	golem2.display()
+	
+}
 
-	textAlign(CENTER);
-	textSize(20);
-	text('click to jump!', halfWidth, halfHeight - 100);
+function resetScene() {
+	golem1.delete();
+	golem2.delete();
+}
 
-	if (mouse.presses()) ball.vel.y = -5;
+function get(obj, key, value) {
+	return key in obj ? obj[key] : value;
+}
+
+function initiateGolems(char1, char2) {
+	let rand_turn = Math.floor(Math.random() * 2);
+	golem1 = new Golem(1,rand_turn, char1)
+	golem2 = new Golem(2,1-rand_turn, char2)
 }
