@@ -19,12 +19,19 @@
 </head>
 
 <body>
-	<main></main>
+	<main>
+		<h1>Raw Serial → MIDI Viewer</h1>
+<p>Click “Connect Serial”, choose your UNO R4 port, then scan a tag. This parses fixed 3-byte messages as MIDI (status, data1, data2).</p>
+<button id="connect">Connect Serial</button>
+<div id="status" class="mono">Status: disconnected</div>
+<div id="log" class="mono"></div>
+	</main>
 
 	<!-- ONLINE LINKS -->
 	<script src="https://q5js.org/q5.js"></script>
 	<script src="https://p5play.org/v3/planck.min.js"></script>
 	<script src="https://p5play.org/v3/p5play.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
 
 	<!-- OFFLINE LINKS -->
 	<!--
@@ -37,6 +44,7 @@
 	<script src="sketch.js"></script>
 	<script src="golem.js"></script>
 	<script src="characters.js"></script>
+	<script src="ardu.js"></script>
 </body>
 
 </html>

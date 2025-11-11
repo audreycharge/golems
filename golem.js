@@ -3,9 +3,10 @@ class Golem {
     this.player = player
     this.damage = character.power
     this.defense = character.defense
-    this.health = 20
+    this.health = 20;
     this.alive = true
     this.attack = false
+    this.hit = false;
     this.hover = character.hover
     this.attackTimer;
     this.idleAni = loadAni(character.idles)
@@ -30,10 +31,6 @@ class Golem {
     this.sprite.addAnimation("idle", this.idleAni)
     this.sprite.addAnimation("attack", this.attackAni)
     
-    // this.attackTimer = setInterval(()=>{
-    //   this.attack = true;
-    // }, 5000)
-    
     
   }
   
@@ -46,9 +43,13 @@ class Golem {
   }
   
   take_damage(d) {
-    this.health -= d*(1-this.defense)
+    var result = d;
+    if (result < 0) {
+      result = 0;
+    }
+    this.health -= result;
     if (this.health <= 0) {
-      die()
+      this.die()
     }
     return this.alive
   }
@@ -57,18 +58,25 @@ class Golem {
     //animate death
     this.alive = false
   }
+
   
   display() {
+    if (this.attack) {
+      this.sprite.changeAni("attack")
+    } else {
+      this.sprite.changeAni("idle")
+    }
     if (this.player == 1) {
       if (this.sprite.x < width/3*2 && this.attack) {
-      console.log("forwards")
+      // console.log("forwards")
       this.sprite.moveTo(width/3*2, height/2, 30)
       } else {
-        console.log("backwards")
+        // console.log("backwards")
         this.sprite.moveTo(width/3, height/2, 30)
       }
       if (this.sprite.x >= width/3*2) {
         this.attack = false;
+        this.hit = true;
       }
 
     } else {
@@ -81,6 +89,8 @@ class Golem {
       }
       if (this.sprite.x <= width/3) {
         this.attack = false;
+        this.hit = true;
+
       }
     }
     this.sprite.rotation = 0;

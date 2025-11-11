@@ -2,7 +2,7 @@ const characters = {
     cff: {
         name: 'cff',
         idles: "./arena/cffi.png",
-        attack: "./arena/cffi.png",
+        attack: "./arena/cffa.png",
         power: 30,
         defense: 30,
         hover: true,
@@ -10,7 +10,7 @@ const characters = {
     cfs: {
         name: 'cfs',
         idles: "./arena/cfsi.png",
-        attack: "./arena/cfsi.png",
+        attack: "./arena/cfsa.png",
         power: 30,
         defense: 30,
         hover: true,
@@ -18,7 +18,7 @@ const characters = {
     cfc: {
         name: 'cfc',
         idles: "./arena/cfci.png",
-        attack: "./arena/cfci.png",
+        attack: "./arena/cfca.png",
         power: 30,
         defense: 30,
         hover: true,
@@ -26,7 +26,7 @@ const characters = {
     csf: {
         name: 'csf',
         idles: "./arena/csfi.png",
-        attack: "./arena/csfi.png",
+        attack: "./arena/csfa.png",
         power: 30,
         defense: 30,
         hover: true,
@@ -34,7 +34,7 @@ const characters = {
     css: {
         name: 'css',
         idles: "./arena/cssi.png",
-        attack: "./arena/cssi.png",
+        attack: "./arena/cssa.png",
         power: 30,
         defense: 30,
         hover: true,
@@ -42,7 +42,7 @@ const characters = {
     csc: {
         name: 'csc',
         idles: "./arena/csci.png",
-        attack: "./arena/csci.png",
+        attack: "./arena/csca.png",
         power: 30,
         defense: 30,
         hover: true,
@@ -50,7 +50,7 @@ const characters = {
     crf: {
         name: 'crf',
         idles: "./arena/crfi.png",
-        attack: "./arena/crfi.png",
+        attack: "./arena/crfa.png",
         power: 30,
         defense: 30,
         hover: true,
@@ -58,7 +58,7 @@ const characters = {
     crs: {
         name: 'crs',
         idles: "./arena/crsi.png",
-        attack: "./arena/crsi.png",
+        attack: "./arena/crsa.png",
         power: 30,
         defense: 30,
         hover: true,
@@ -193,24 +193,24 @@ const characters = {
     },
     lrf: {
         name: 'lrf',
-        idles: "./arena/cffi.png",
-        attack: "./arena/cffi.png",
+        idles: "./arena/lrfi.png",
+        attack: "./arena/lrfi.png",
         power: 30,
         defense: 30,
         hover: true,
     },
     lrs: {
         name: 'lrs',
-        idles: "./arena/cffi.png",
-        attack: "./arena/cffi.png",
+        idles: "./arena/lrsi.png",
+        attack: "./arena/lrsi.png",
         power: 30,
         defense: 30,
         hover: true,
     },
     lrc: {
         name: 'lrc',
-        idles: "./arena/cffi.png",
-        attack: "./arena/cffi.png",
+        idles: "./arena/lrci.png",
+        attack: "./arena/lrci.png",
         power: 30,
         defense: 30,
         hover: false,
