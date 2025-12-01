@@ -14,6 +14,7 @@ class Golem {
 
     this.attackAni = loadAni(character.attack)
     this.sprite = new Sprite(width/3*player, height/2, 50, 50)
+    this.sprite.scale.y *=-1;
     if (player == 2) {
       this.sprite.scale.x *=-1;
     }

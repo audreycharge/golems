@@ -1,6 +1,6 @@
 createCanvas(window.width, window.height);
 var golem1, golem2;
-var heads = ['c', 'ch', 'l']
+var heads = ['c', 'h', 'l']
 var bodies = ['f', 's', 'r']
 var limbs = ['s', 'c', 'f']
 
@@ -13,19 +13,21 @@ var winner;
 let battleMusic;
 let introMusic;
 let cheering;
+let win = [];
+
+let end_timer;
 
 function setup() {
 	document.addEventListener('keydown', function(ev){
-	console.log(ev.which);
+	// console.log(ev.which);
 	if (ev.key === ' ') {
 		if (state == "title") {
 			state = "battle"
 			battleMusic.play()
 			startScene()
-		} else if(state == "end"){
-			state = "title"
-			battleMusic.stop();
 		}
+	} else if (ev.key === 'c') {
+		getPort();
 	}
 	
 	});
@@ -35,6 +37,8 @@ function setup() {
 	battleMusic.amp(0.3)
 	cheering = loadSound("cheering.wav")
 	cheering.amp(0.3)
+	win.push(loadImage("win/p1.png"))
+	win.push(loadImage("win/p2.png"))
 }
 
 function title() {
@@ -48,12 +52,14 @@ function title() {
 }
 
 function startScene() {
+	// var name = test_array[0]
 	var name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
 	var char1 = name in characters ? characters[name] : "Unknown";
 
+	// name = test_array[1]
 	name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
 	var char2 = name in characters ? characters[name] : "Unknown";
-	// console.log(name)
+	console.log(char2)
 
 	initiateGolems(char1, char2);
 	battleMusic.loop()
@@ -64,6 +70,8 @@ function startScene() {
 function update() {
 	background('black');
 	switch(state) {
+		case "setup":
+			connecter();
 		case "title":
 			title();
 			break;
@@ -104,7 +112,10 @@ function battle() {
 		
 		resetScene()
 		state = "end"
-
+		end_timer = setTimeout(()=>{
+			state = "title"
+			battleMusic.stop();
+		},7000)
 		
 		cheering.play()
 		// cheering.noLoop()
@@ -113,15 +124,20 @@ function battle() {
 }
 
 function announceWinner() {
+	push()
+	// scale(-1,1)
+	image(win[0], 0, 0, width, height, 0, 0, win.width, win.height)
+	pop()
 	text("WINNER:", width/2, height/2) 
 	text("Player "+ winner, width/2, height/2 + 50) 
 	print("winner")
 }
 
 function resetScene() {
-	golem1.sprite.delete()
+	golem1.sprite.delete() 
 	console.log(golem1.sprite)
 	golem2.sprite.delete()
+	test_array = [];
 	// startScene()
 }
 

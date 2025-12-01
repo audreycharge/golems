@@ -1,6 +1,10 @@
 const statusEl = document.getElementById('status');
 const logEl = document.getElementById('log');
 const btn = document.getElementById('connect');
+const gamebutton = document.getElementById('game');
+var input_thing;
+const decoder = new TextDecoder('utf-8');
+var test_array = []
 
 function log(s){
   const d=document.createElement('div'); d.textContent=s; logEl.prepend(d);
@@ -8,8 +12,8 @@ function log(s){
 }
 
 async function readLoop(port){
-  await port.open({ baudRate: 115200 });
-  statusEl.textContent = 'Status: connected @115200';
+  await port.open({ baudRate: 9600 });
+  // statusEl.textContent = 'Status: connected @115200';
   const reader = port.readable.getReader();
   try{
     let buf = new Uint8Array(0);
@@ -18,28 +22,16 @@ async function readLoop(port){
       if (done) break;
       if (!value) continue;
 
-      // append to buffer
-      let tmp = new Uint8Array(buf.length + value.length);
-      tmp.set(buf, 0); tmp.set(value, buf.length); buf = tmp;
+      var stringthing = decoder.decode(value);
 
-      // parse fixed 3-byte messages
-      while (buf.length >= 3){
-        const msg = buf.slice(0,3);
-        buf = buf.slice(3);
+      input_thing = stringthing;
 
-        const status = msg[0] & 0xF0;
-        const chan   = (msg[0] & 0x0F) + 1;
-        const d1 = msg[1] & 0x7F;
-        const d2 = msg[2] & 0x7F;
-
-        if (status === 0x90 && d2 > 0){
-          log(`NoteOn  ch:${chan} note:${d1} vel:${d2}  raw=[${hex(msg[0])} ${hex(msg[1])} ${hex(msg[2])}]`);
-        } else if (status === 0x80 || (status === 0x90 && d2 === 0)){
-          log(`NoteOff ch:${chan} note:${d1} vel:${d2}  raw=[${hex(msg[0])} ${hex(msg[1])} ${hex(msg[2])}]`);
-        } else {
-          log(`MIDI 0x${status.toString(16)} ch:${chan} d1:${d1} d2:${d2}`);
-        }
+      // console.log(tmp)
+      if (input_thing !== "\n") {
+        console.log(input_thing)
+        test_array.push(input_thing);
       }
+      buf = new Uint8Array(0);
     }
   } catch(e){
     log('Error: '+e);
@@ -50,14 +42,26 @@ async function readLoop(port){
   }
 }
 
-function hex(b){ return '0x'+b.toString(16).padStart(2,'0'); }
+// btn.addEventListener('click', async ()=>{
+//   if (!('serial' in navigator)) { alert('Web Serial not supported in this browser'); return; }
+//   try{
+//     const port = await navigator.serial.requestPort();
+//     readLoop(port);
+//   } catch(e){
+//     console.log('Port open canceled/failed.');
+//   }
+// });
 
-btn.addEventListener('click', async ()=>{
+async function getPort() {
   if (!('serial' in navigator)) { alert('Web Serial not supported in this browser'); return; }
   try{
     const port = await navigator.serial.requestPort();
     readLoop(port);
   } catch(e){
-    log('Port open canceled/failed.');
+    console.log('Port open canceled/failed.');
   }
+}
+
+gamebutton.addEventListener('click', async ()=>{
+  document.location = "game.html";
 });
