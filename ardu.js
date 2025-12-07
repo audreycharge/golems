@@ -4,7 +4,6 @@ const btn = document.getElementById('connect');
 const gamebutton = document.getElementById('game');
 var input_thing;
 const decoder = new TextDecoder('utf-8');
-var test_array = []
 
 function log(s){
   const d=document.createElement('div'); d.textContent=s; logEl.prepend(d);
@@ -12,7 +11,7 @@ function log(s){
 }
 
 async function readLoop(port){
-  await port.open({ baudRate: 9600 });
+  await port.open({ baudRate: 115200 });
   // statusEl.textContent = 'Status: connected @115200';
   const reader = port.readable.getReader();
   try{
@@ -26,12 +25,17 @@ async function readLoop(port){
 
       input_thing = stringthing;
 
-      // console.log(tmp)
       if (input_thing !== "\n") {
         console.log(input_thing)
-        test_array.push(input_thing);
+        if (state == "title") {
+          state = "battle"
+          battleMusic.setVolume(0.3, 0, 0);
+          battleMusic.play()
+          selectMusic.stop()
+          startScene()
+          input_thing = null
+        }
       }
-      buf = new Uint8Array(0);
     }
   } catch(e){
     log('Error: '+e);
@@ -41,16 +45,6 @@ async function readLoop(port){
     statusEl.textContent = 'Status: disconnected';
   }
 }
-
-// btn.addEventListener('click', async ()=>{
-//   if (!('serial' in navigator)) { alert('Web Serial not supported in this browser'); return; }
-//   try{
-//     const port = await navigator.serial.requestPort();
-//     readLoop(port);
-//   } catch(e){
-//     console.log('Port open canceled/failed.');
-//   }
-// });
 
 async function getPort() {
   if (!('serial' in navigator)) { alert('Web Serial not supported in this browser'); return; }

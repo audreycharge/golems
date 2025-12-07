@@ -11,9 +11,11 @@ class Golem {
     this.attackTimer;
     this.idleAni = loadAni(character.idles)
     this.idleAni.frameDelay = 10
+    this.idle = Math.random()*200
 
     this.attackAni = loadAni(character.attack)
     this.sprite = new Sprite(width/3*player, height/2, 50, 50)
+    this.sprite.scale *=2
     this.sprite.scale.y *=-1;
     if (player == 2) {
       this.sprite.scale.x *=-1;
@@ -36,15 +38,15 @@ class Golem {
   }
   
   punch(){
-    return (this.damage*0.3)
+    return (this.damage)
   }
   
   kick(){
-    return (this.damage*0.4)
+    return (this.damage)
   }
   
   take_damage(d) {
-    var result = d;
+    var result = d - this.defense;
     if (result < 0) {
       result = 0;
     }
@@ -62,18 +64,27 @@ class Golem {
 
   
   display() {
+    let offset = Math.floor(sin((frameCount+ this.idle)*4) * 5)*3;
+    // print(frameCount)
+
+
     if (this.attack) {
       this.sprite.changeAni("attack")
     } else {
       this.sprite.changeAni("idle")
+
+      this.sprite.y = height/2 + offset
+
+
+
     }
     if (this.player == 1) {
       if (this.sprite.x < width/3*2 && this.attack) {
       // console.log("forwards")
-      this.sprite.moveTo(width/3*2, height/2, 30)
+      this.sprite.moveTo(width/3*2, this.sprite.y, 30)
       } else {
         // console.log("backwards")
-        this.sprite.moveTo(width/3, height/2, 30)
+        this.sprite.moveTo(width/3, this.sprite.y, 30)
       }
       if (this.sprite.x >= width/3*2) {
         this.attack = false;
@@ -83,10 +94,10 @@ class Golem {
     } else {
       if (this.sprite.x > width/3 && this.attack) {
       // console.log("forwards")
-      this.sprite.moveTo(width/3, height/2, 30)
+      this.sprite.moveTo(width/3, this.sprite.y, 30)
       } else {
         // console.log("backwards")
-        this.sprite.moveTo(width/3*2, height/2, 30)
+        this.sprite.moveTo(width/3*2, this.sprite.y, 30)
       }
       if (this.sprite.x <= width/3) {
         this.attack = false;
@@ -95,6 +106,8 @@ class Golem {
       }
     }
     this.sprite.rotation = 0;
+
+    
     
   }
 }

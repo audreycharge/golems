@@ -11,53 +11,60 @@ var states = ["title", "battle", "end"]
 var state = states[0];
 var winner;
 let battleMusic;
+let selectMusic;
 let introMusic;
 let cheering;
 let win = [];
+let titlescreen;
 
 let end_timer;
 
 function setup() {
+	selectMusic = loadSound("Selection.mp3")
+	battleMusic = loadSound("battle_music.mp3")
+	selectMusic = loadSound("Selection.mp3")
+	battleMusic.amp(0.3)
+	selectMusic.amp(0.3);
+	titlescreen = loadImage("win/title.png")
+	cheering = loadSound("cheering.wav")
+	cheering.amp(0.3)
+	win.push(loadImage("win/p1.png"))
+	win.push(loadImage("win/p2.png"))
+	
 	document.addEventListener('keydown', function(ev){
 	// console.log(ev.which);
 	if (ev.key === ' ') {
 		if (state == "title") {
 			state = "battle"
+			battleMusic.setVolume(0.3, 0, 0);
 			battleMusic.play()
+			selectMusic.stop()
 			startScene()
 		}
 	} else if (ev.key === 'c') {
 		getPort();
+	} else if (ev.key === 'r') {
+		selectMusic.stop()
+		selectMusic.loop();
 	}
 	
 	});
 
-	battleMusic = loadSound("battle_music.mp3")
-	
-	battleMusic.amp(0.3)
-	cheering = loadSound("cheering.wav")
-	cheering.amp(0.3)
-	win.push(loadImage("win/p1.png"))
-	win.push(loadImage("win/p2.png"))
 }
 
 function title() {
-	fill("white")
-	textAlign(CENTER)
-	textSize(30)
-	text("HEAR YE HEAR YE HERE'S SOME TEXT ABOUT BUILDING YOUR BEAST", width/2, height/2) 
-	text("PRESS THE SPACEBAR TO CONTINUE", width/2, height/2 + 50) 
-	
+	image(titlescreen, 0, 0, width, height, 0, 0, win.width, win.height)
 
 }
 
 function startScene() {
-	// var name = test_array[0]
-	var name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
+	var name = input_thing.substring(0, 3);
+	console.log(name)
 	var char1 = name in characters ? characters[name] : "Unknown";
 
-	// name = test_array[1]
-	name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
+	name = input_thing.substring(3)
+	console.log(name)
+	// name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
 	var char2 = name in characters ? characters[name] : "Unknown";
 	console.log(char2)
 
@@ -112,33 +119,31 @@ function battle() {
 		
 		resetScene()
 		state = "end"
+		battleMusic.setVolume(0, 7, 0)
 		end_timer = setTimeout(()=>{
 			state = "title"
 			battleMusic.stop();
-		},7000)
+			selectMusic.loop()
+		},10000)
 		
 		cheering.play()
-		// cheering.noLoop()
 		
 	}
 }
 
 function announceWinner() {
 	push()
-	// scale(-1,1)
-	image(win[0], 0, 0, width, height, 0, 0, win.width, win.height)
+	if (winner == 1) {
+		image(win[0], 0, 0, width, height, 0, 0, win.width, win.height)
+	} else {
+		image(win[1], 0, 0, width, height, 0, 0, win.width, win.height)
+	}
 	pop()
-	text("WINNER:", width/2, height/2) 
-	text("Player "+ winner, width/2, height/2 + 50) 
-	print("winner")
 }
 
 function resetScene() {
 	golem1.sprite.delete() 
-	console.log(golem1.sprite)
 	golem2.sprite.delete()
-	test_array = [];
-	// startScene()
 }
 
 function get(obj, key, value) {
