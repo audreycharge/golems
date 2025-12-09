@@ -24,14 +24,15 @@ async function readLoop(port){
       var stringthing = decoder.decode(value);
 
       input_thing = stringthing;
-
-      if (input_thing !== "\n") {
+      console.log(input_thing)
+      if (input_thing.length == 6) {
         console.log(input_thing)
         if (state == "title") {
           state = "battle"
           battleMusic.setVolume(0.3, 0, 0);
           battleMusic.play()
           selectMusic.stop()
+          fire.delete()
           startScene()
           input_thing = null
         }

@@ -16,7 +16,8 @@ let introMusic;
 let cheering;
 let win = [];
 let titlescreen;
-
+let fire_ani;
+let fire;
 let end_timer;
 
 function setup() {
@@ -30,6 +31,12 @@ function setup() {
 	cheering.amp(0.3)
 	win.push(loadImage("win/p1.png"))
 	win.push(loadImage("win/p2.png"))
+	fire_ani = loadAni('load/f1.png', 4);
+	fire_ani.frameDelay+=5;
+	// fire_ani.scale *= -1
+	fire = new Sprite(width/2, height/2)
+	fire.addAnimation("fire", fire_ani)
+	
 	
 	document.addEventListener('keydown', function(ev){
 	// console.log(ev.which);
@@ -39,6 +46,7 @@ function setup() {
 			battleMusic.setVolume(0.3, 0, 0);
 			battleMusic.play()
 			selectMusic.stop()
+			fire.delete()
 			startScene()
 		}
 	} else if (ev.key === 'c') {
@@ -53,17 +61,29 @@ function setup() {
 }
 
 function title() {
-	image(titlescreen, 0, 0, width, height, 0, 0, win.width, win.height)
+	// image(titlescreen, 0, 0, width, height, 0, 0, win.width, win.height)
+	// animation(fire_ani, width/2, height/2)
+	
 
 }
 
 function startScene() {
-	var name = input_thing.substring(0, 3);
+	if (input_thing != null) {
+		var name = input_thing.substring(0, 3);
+	} else {
+		name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
+	}
+	
 	console.log(name)
 	var char1 = name in characters ? characters[name] : "Unknown";
 
-	name = input_thing.substring(3)
-	console.log(name)
+	if (input_thing != null) {
+		var name = input_thing.substring(3);
+	} else {
+		name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
+	}
+	// name = input_thing.substring(3)
+	// console.log(name)
 	// name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
 	var char2 = name in characters ? characters[name] : "Unknown";
 	console.log(char2)
@@ -122,6 +142,10 @@ function battle() {
 		battleMusic.setVolume(0, 7, 0)
 		end_timer = setTimeout(()=>{
 			state = "title"
+			fire = new Sprite(width/2, height/2)
+			// fire_ani.scale *= -1
+			fire.addAnimation("fire", fire_ani)
+			
 			battleMusic.stop();
 			selectMusic.loop()
 		},10000)
