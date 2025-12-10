@@ -68,27 +68,26 @@ function title() {
 }
 
 function startScene() {
-	if (input_thing != null) {
+	if (input_thing.length == 6) {
 		var name = input_thing.substring(0, 3);
 	} else {
 		name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
 	}
 	
-	console.log(name)
+	console.log("char1"+name)
 	var char1 = name in characters ? characters[name] : "Unknown";
 
-	if (input_thing != null) {
-		var name = input_thing.substring(3);
+	if (input_thing.length == 6) {
+		var name = input_thing.substring(3,6);
 	} else {
 		name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
 	}
-	// name = input_thing.substring(3)
-	// console.log(name)
-	// name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
+	name = "lfc"
+	console.log("char2"+name)
 	var char2 = name in characters ? characters[name] : "Unknown";
 	console.log(char2)
 
-	initiateGolems(char1, char2);
+	initiateGolems(char2, char1);
 	battleMusic.loop()
 
 }
