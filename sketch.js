@@ -27,8 +27,8 @@ function setup() {
 	selectMusic.amp(0.3);
 	cheering = loadSound("cheering.wav")
 	cheering.amp(0.3)
-	win.push(loadImage("./win/p1.png"))
-	win.push(loadImage("./win/p2.png"))
+	win.push(loadImage("./win/p1.PNG"))
+	win.push(loadImage("./win/p2.PNG"))
 	fire_ani = loadAni('./load/f1.png', 4);
 	fire_ani.frameDelay+=5;
 	// fire_ani.scale *= -1
