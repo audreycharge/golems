@@ -82,7 +82,7 @@ function startScene() {
 	} else {
 		name = heads[Math.floor(Math.random() * 3)] + bodies[Math.floor(Math.random() * 3)] + limbs[Math.floor(Math.random() * 3)]
 	}
-	name = "lfc"
+	// name = "lfc"
 	console.log("char2"+name)
 	var char2 = name in characters ? characters[name] : "Unknown";
 	console.log(char2)
