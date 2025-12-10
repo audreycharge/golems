@@ -15,7 +15,6 @@ let selectMusic;
 let introMusic;
 let cheering;
 let win = [];
-let titlescreen;
 let fire_ani;
 let fire;
 let end_timer;
@@ -26,12 +25,11 @@ function setup() {
 	selectMusic = loadSound("Selection.mp3")
 	battleMusic.amp(0.3)
 	selectMusic.amp(0.3);
-	titlescreen = loadImage("win/title.png")
 	cheering = loadSound("cheering.wav")
 	cheering.amp(0.3)
-	win.push(loadImage("win/p1.png"))
-	win.push(loadImage("win/p2.png"))
-	fire_ani = loadAni('load/f1.png', 4);
+	win.push(loadImage("./win/p1.png"))
+	win.push(loadImage("./win/p2.png"))
+	fire_ani = loadAni('./load/f1.png', 4);
 	fire_ani.frameDelay+=5;
 	// fire_ani.scale *= -1
 	fire = new Sprite(width/2, height/2)
@@ -61,7 +59,6 @@ function setup() {
 }
 
 function title() {
-	// image(titlescreen, 0, 0, width, height, 0, 0, win.width, win.height)
 	// animation(fire_ani, width/2, height/2)
 	
 
